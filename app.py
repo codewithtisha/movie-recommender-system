@@ -3,7 +3,7 @@ import pickle
 import pandas as pd
 import requests
 
-# ---------------- FETCH POSTER FUNCTION ----------------
+# FETCH POSTER FUNCTION 
 def fetch_poster(movie_id):
     try:
         response = requests.get(
@@ -19,10 +19,10 @@ def fetch_poster(movie_id):
     except:
         return "https://via.placeholder.com/500x750?text=Error"
 
-# ---------------- LOAD DATA ----------------
+# LOAD DATA 
 movies = pickle.load(open('movies.pkl', 'rb'))
 
-# ---------------- CREATE SIMILARITY ----------------
+#  CREATE SIMILARITY 
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 
@@ -31,7 +31,7 @@ vectors = cv.fit_transform(movies['tags']).toarray()
 
 similarity = cosine_similarity(vectors)
 
-# ---------------- RECOMMEND FUNCTION ----------------
+# RECOMMEND FUNCTION 
 def recommend(movie):
     movie_index = movies[movies['title'] == movie].index[0]
     distances = similarity[movie_index]
@@ -52,7 +52,7 @@ def recommend(movie):
 
     return recommended_movies, recommended_posters
 
-# ---------------- STREAMLIT UI ----------------
+# STREAMLIT UI
 st.title('Movie Recommender System')
 
 selected_movie_name = st.selectbox(
